@@ -1,22 +1,34 @@
-import { ReactComponent as Pizza } from './pizza.svg'
+import { formatPrice } from './helpers'
+import { Product } from './types'
 
-function ProductCard() {
+
+type props = {
+    product : Product,
+    isSelected :boolean,
+    onSelecteProduct :(product :Product) => void
+}
+
+                        
+function ProductCard({ product, onSelecteProduct, isSelected }: props) {
     return(
-        <div className="order-card-container">
+        <div 
+            className={`order-card-container ${isSelected ? 'selected' : ''}`}
+            onClick={() => onSelecteProduct(product)}
+        >
             <h3 className="order-card-title">
-                Pizza Calabresa
+                {product.name}
             </h3>
-            <Pizza className="order-card-image"/>
+            <img 
+                src={product.imageUri}
+                className="order-card-image"
+                />
             <h3 className="order-card-price">
-                R$ 35,90
+                { formatPrice(product.price)}
             </h3>
             <div className="order-card-description">
                 <h3>Descrição</h3>
                 <p>
-                    Uma deliciosa combinação de Linguiça
-                    Calabresa, rodelas de cebolas frescas,
-                    azeitonas pretas, mussarela, polpa de 
-                    tomate, orégano e massa especial.
+                    {product.description}
                 </p>
             </div>
         </div>
